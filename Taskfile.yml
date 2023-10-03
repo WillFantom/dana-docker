@@ -1,0 +1,36 @@
+version: "3"
+
+tasks:
+  pull:
+    summary: |
+      Download a new copy of dana
+
+      Downloads and unpacks a specific version of dana from the project site and
+      store in the dir `dana`.
+    dir: dana
+    cmds:
+      - curl -fsSL --insecure "https://projectdana.com/download/ubu64/${DANA_VERSION}" -o dana.zip
+      - unzip -o dana.zip
+      - rm -f dana.zip HowToInstall.txt
+    env:
+      DANA_VERSION: 265
+
+  clean:
+    summary: |
+      Remove dana from the workspace
+
+      This removes the local `dana` directory in-turn removing the local dana
+      version. Other copies of dana can be obtained via the `pull` task.
+    cmds:
+      - rm -rf dana
+
+  build:
+    summary: |
+      Build the docker image for dana
+
+      Using the dana version found in the local dir ($pwd/dana), create a docker
+      image for dana with the given tag (env DANA_IMAGE_TAG).
+    cmds:
+      - docker build --rm -t ${DANA_IMAGE_TAG} -f Dockerfile .
+    env:
+      DANA_IMAGE_TAG: dana:latest
