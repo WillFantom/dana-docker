@@ -27,3 +27,22 @@ MyApp.dn`
 `docker run --rm -it -v "$(pwd)":/shared -w /shared ghcr.io/willfantom/dana:full dana
 MyApp`
 
+## Building
+
+The Dockerfile expects a copy of *dana* to exist locally in the directory
+`dana`. It expects at least `dnc`, `dana`, and `componenets/`. If you do not
+have a local copy of *dana*, a compatible (ubuntu64) version can be downloaded
+via a [Task](https://taskfile.dev):
+
+```
+$ DANA_VERSION=265 task pull
+```
+
+The container can then be built using the `build` task:
+
+```
+$ DANA_IMAGE_TAG=dana:dev task build
+```
+
+> Note: Check the given [`Taskfile`](./Taskfile.yml) for more
+
